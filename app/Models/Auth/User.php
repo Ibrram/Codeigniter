@@ -44,17 +44,23 @@ class User extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function login($username, $password) {
+    public function login($username, $password)
+    {
         $user = $this->where('username', $username)->first();
-        
+
         if (!$user) {
             return false;
         }
-        
+
         if (!password_verify($password, $user['password'])) {
             return false;
         }
-        
+
         return $user;
+    }
+
+    public function getUserByToken($token)
+    {
+        $user = $this->where('remember_token', $token)->first();
     }
 }
